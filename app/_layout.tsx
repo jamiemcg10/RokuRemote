@@ -38,8 +38,6 @@ export default function RootLayout() {
   const [devices, setDevices] = useState([DEFAULT_DEVICE])
   const [addNew, showAddNew] = useState(false)
   const [selected, setSelected] = useState<Device>()
-  const [name, setName] = useState("")
-  const [ip, setIp] = useState("")
 
   return (
     <ThemeProvider value={theme}>
