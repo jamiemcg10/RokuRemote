@@ -18,6 +18,7 @@ const MAPPING = {
   "arrow-back": "arrow-back",
   "search": "location-searching",
   "chevron-right": "chevron-right",
+  "power": "power-settings-new",
 } as IconMapping
 
 /**

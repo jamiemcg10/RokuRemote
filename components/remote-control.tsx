@@ -2,8 +2,8 @@ import { launchApp, pressKey } from "@/api/ecp"
 import { Device } from "@/app/types"
 import { Dispatch, SetStateAction } from "react"
 import { Button, StyleSheet, View } from "react-native"
-
 import { IconButton } from "./IconButton"
+import PowerControl from "./power-control"
 
 interface RemoteControlProps {
   baseIp: string
@@ -26,8 +26,14 @@ export default function RemoteControl({
 
   return (
     <View style={styles.container}>
-      <View style={{ ...styles.row, marginBottom: 20 }}>
-        <Button title="Power" onPress={() => {}} />
+      <View
+        style={{
+          ...styles.row,
+          marginBottom: 20,
+          alignItems: "center",
+        }}
+      >
+        <PowerControl />
       </View>
       <View
         style={{

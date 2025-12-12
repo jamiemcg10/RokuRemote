@@ -4,8 +4,9 @@ import { pressKey } from "@/api/ecp"
 import { IconButton } from "@/components/IconButton"
 import NewDeviceForm from "@/components/NewDeviceForm"
 import NoDevicesFound from "@/components/NoDevicesFound"
-import RemoteControl from "@/components/RemoteControl"
+import RemoteControl from "@/components/remote-control"
 import { ThemedText } from "@/components/theme/themed-text"
+import { Colors, DEFAULT_DEVICE } from "@/constants"
 import { useColorScheme } from "@/hooks/use-color-scheme"
 import {
   DarkTheme,
@@ -17,14 +18,9 @@ import { Button, FlatList, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Device } from "./types"
 
-const DEFAULT_DEVICE = {
-  ip: "192.168.12.185",
-  name: "Zuko",
-}
-
 export default function RootLayout() {
-  const colorScheme = useColorScheme()
-  const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme
+  const colorScheme = useColorScheme() || "dark"
+  const theme = colorScheme === "light" ? DefaultTheme : DarkTheme
 
   function addRoku(args?: { name: string; ip: string }) {
     if (args) {
@@ -46,7 +42,7 @@ export default function RootLayout() {
           flex: 1,
           paddingVertical: 35,
           paddingHorizontal: 20,
-          backgroundColor: theme.colors.background,
+          backgroundColor: Colors[colorScheme].background,
         }}
       >
         {selected && (
