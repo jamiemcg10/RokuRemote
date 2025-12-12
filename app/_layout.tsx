@@ -1,11 +1,11 @@
 import "react-native-reanimated"
 
 import { pressKey } from "@/api/ecp"
-import { IconButton } from "@/components/IconButton"
-import NewDeviceForm from "@/components/NewDeviceForm"
-import NoDevicesFound from "@/components/NoDevicesFound"
+import NewDeviceForm from "@/components/new-device-form"
+import NoDevicesFound from "@/components/no-devices-found"
 import RemoteControl from "@/components/remote-control"
 import { ThemedText } from "@/components/theme/themed-text"
+import { IconButton } from "@/components/ui/icon-button"
 import { Colors, DEFAULT_DEVICE } from "@/constants"
 import { useColorScheme } from "@/hooks/use-color-scheme"
 import {

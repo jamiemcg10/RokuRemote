@@ -2,8 +2,8 @@ import { launchApp, pressKey } from "@/api/ecp"
 import { Device } from "@/app/types"
 import { Dispatch, SetStateAction } from "react"
 import { Button, StyleSheet, View } from "react-native"
-import { IconButton } from "./IconButton"
 import PowerControl from "./power-control"
+import { IconButton } from "./ui/icon-button"
 
 interface RemoteControlProps {
   baseIp: string
