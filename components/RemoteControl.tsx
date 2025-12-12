@@ -3,6 +3,8 @@ import { Device } from "@/app/types"
 import { Dispatch, SetStateAction } from "react"
 import { Button, StyleSheet, View } from "react-native"
 
+import { IconButton } from "./IconButton"
+
 interface RemoteControlProps {
   baseIp: string
   name: string
@@ -24,32 +26,71 @@ export default function RemoteControl({
 
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
-        <Button title="Back" onPress={() => send("back")} />
-        <Button title="Home" onPress={() => send("home")} />
+      <View style={{ ...styles.row, marginBottom: 20 }}>
+        <Button title="Power" onPress={() => {}} />
+      </View>
+      <View
+        style={{
+          ...styles.row,
+          marginVertical: 10,
+          marginBottom: 20,
+          paddingHorizontal: 30,
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <IconButton onPress={() => send("back")} size={40} name="arrow-back" />
+        <IconButton onPress={() => send("home")} size={40} name="home" />
       </View>
       <View style={styles.row}>
-        <Button title="Up" onPress={() => send("Up")} />
+        <IconButton
+          onPress={() => send("Up")}
+          name="chevron-right"
+          size={60}
+          style={{ transform: [{ rotate: "-90deg" }] }}
+        />
+      </View>
+      <View style={{ ...styles.row, columnGap: 20, marginVertical: 8 }}>
+        <IconButton
+          onPress={() => send("Left")}
+          name="chevron-right"
+          size={60}
+          style={{ transform: [{ rotate: "180deg" }] }}
+        />
+
+        <IconButton onPress={() => send("Select")} text="OK" size={70} />
+
+        <IconButton
+          onPress={() => send("Right")}
+          name="chevron-right"
+          size={60}
+        />
       </View>
       <View style={styles.row}>
-        <Button title="Left" onPress={() => send("Left")} />
-        <Button title="OK" onPress={() => send("ok")} />
-        <Button title="Right" onPress={() => send("Right")} />
+        <IconButton
+          onPress={() => send("Down")}
+          name="chevron-right"
+          size={60}
+          style={{ transform: [{ rotate: "90deg" }] }}
+        />
       </View>
-      <View style={styles.row}>
-        <Button title="Down" onPress={() => send("Down")} />
+
+      <View style={styles.grid}>
+        <Button title="Hulu" color="#1ce783" onPress={() => launch(2285)} />
+        <Button title="Netflix" color="red" onPress={() => launch(12)} />
+        <Button
+          title="Disney+"
+          color="#0a1225"
+          onPress={() => launch(291097)}
+        />
+        <Button title="Prime" color="#0072f9" onPress={() => launch(13)} />
+        <Button title="Peleton" color="black" onPress={() => launch(592506)} />
+        <Button title="Spotify" color="green" onPress={() => launch(22297)} />
       </View>
-      <View style={styles.row}>
-        <Button title="Hulu" onPress={() => launch(2285)} />
-        <Button title="Netflix" onPress={() => launch(12)} />
-        <Button title="Disney+" onPress={() => launch(291097)} />
-        <Button title="Prime" onPress={() => launch(13)} />
-        <Button title="Peleton" onPress={() => launch(592506)} />
-        <Button title="Spotify" onPress={() => launch(22297)} />
-      </View>
-      <View style={styles.row}>
+      <View style={{ ...styles.row, marginTop: "auto" }}>
         <Button
           title={`Disconnect from ${name}`}
+          color="gray"
           onPress={() => setSelected(undefined)}
         />
       </View>
@@ -59,12 +100,24 @@ export default function RemoteControl({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    marginTop: 0,
     alignItems: "center",
+    flexGrow: 1,
+    display: "flex",
   },
   row: {
     flexDirection: "row",
     marginVertical: 12,
     gap: 12,
+  },
+  grid: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: "20%",
+    columnGap: 50,
+    rowGap: 25,
+    paddingHorizontal: 20,
+    justifyContent: "space-around",
   },
 })

@@ -33,3 +33,12 @@ export async function launchApp(ip: string, channelId: number) {
     console.log("Launch error:", err)
   }
 }
+
+export async function togglePower(ip: string, status: "On" | "Off") {
+  const url = `http://${ip}:8060/keypress/Power${status}`
+  try {
+    await fetch(url, { method: "POST" })
+  } catch (err) {
+    console.log("Power error:", err)
+  }
+}

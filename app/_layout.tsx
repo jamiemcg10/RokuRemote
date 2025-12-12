@@ -1,15 +1,21 @@
 import "react-native-reanimated"
 
+import { pressKey } from "@/api/ecp"
+import { IconButton } from "@/components/IconButton"
+import NewDeviceForm from "@/components/NewDeviceForm"
+import NoDevicesFound from "@/components/NoDevicesFound"
 import RemoteControl from "@/components/RemoteControl"
+import { ThemedText } from "@/components/theme/themed-text"
 import { useColorScheme } from "@/hooks/use-color-scheme"
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native"
 import { useState } from "react"
-import { Button, FlatList, Text } from "react-native"
+import { Button, FlatList, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Device } from "./types"
-
-export const unstable_settings = {
-  anchor: "(tabs)",
-}
 
 const DEFAULT_DEVICE = {
   ip: "192.168.12.185",
@@ -18,59 +24,100 @@ const DEFAULT_DEVICE = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
+  const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme
 
-  const [devices, setDevices] = useState([DEFAULT_DEVICE])
-  const [selected, setSelected] = useState<Device>()
+  function addRoku(args?: { name: string; ip: string }) {
+    if (args) {
+      const { name, ip } = args
+      setDevices([...devices, { ip, name }])
+    }
 
-  if (selected) {
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <Text style={{ textAlign: "center", marginTop: 20 }}>
-          Connected to {selected.name}`
-        </Text>
-        <RemoteControl
-          baseIp={selected.ip}
-          name={selected.name}
-          setSelected={setSelected}
-        />
-      </SafeAreaView>
-    )
+    showAddNew(false)
   }
 
+  const [devices, setDevices] = useState([DEFAULT_DEVICE])
+  const [addNew, showAddNew] = useState(false)
+  const [selected, setSelected] = useState<Device>()
+  const [name, setName] = useState("")
+  const [ip, setIp] = useState("")
+
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20 }}>
-      <FlatList
-        data={devices}
-        keyExtractor={(item) => item.ip}
-        renderItem={({ item }) => (
-          <Button
-            title={`${item.name} (${item.ip})`}
-            onPress={() => setSelected(item)}
-          />
+    <ThemeProvider value={theme}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingVertical: 35,
+          paddingHorizontal: 20,
+          backgroundColor: theme.colors.background,
+        }}
+      >
+        {selected && (
+          <>
+            <View
+              style={{
+                position: "relative",
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <ThemedText
+                style={{
+                  textAlign: "center",
+                  marginTop: 20,
+                  height: "100%",
+                  fontWeight: 600,
+                }}
+              >
+                Connected to {selected.name}
+              </ThemedText>
+              <View style={{ width: "auto" }}>
+                <IconButton
+                  name="search"
+                  size={30}
+                  onPress={() => pressKey(selected.ip, "FindRemote")}
+                />
+              </View>
+            </View>
+
+            <RemoteControl
+              baseIp={selected.ip}
+              name={selected.name}
+              setSelected={setSelected}
+            />
+          </>
         )}
-      ></FlatList>
+        {addNew && <NewDeviceForm addRoku={addRoku} />}
+        {!selected && !addNew && (
+          <>
+            <ThemedText
+              style={{
+                marginBottom: 10,
+                textAlign: "center",
+              }}
+            >
+              Rokus
+            </ThemedText>
+            <FlatList
+              data={devices}
+              keyExtractor={(item) => item.ip}
+              renderItem={({ item }) => (
+                <View style={{ marginVertical: 5 }}>
+                  <Button
+                    title={`${item.name} (${item.ip})`}
+                    onPress={() => setSelected(item)}
+                  />
+                </View>
+              )}
+            ></FlatList>
 
-      {(true || !devices.length) && (
-        <>
-          <Text style={{ marginTop: 20, textAlign: "center" }}>
-            No devices found
-          </Text>
-          <Button title="Add device manually" onPress={() => {}} />
-        </>
-      )}
-    </SafeAreaView>
+            {(true || !devices.length) && (
+              <NoDevicesFound showAddNew={showAddNew} />
+            )}
+          </>
+        )}
+      </SafeAreaView>
+    </ThemeProvider>
   )
-
-  // return (
-  //   <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-  //     <Stack>
-  //       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-  //       <Stack.Screen
-  //         name="modal"
-  //         options={{ presentation: "modal", title: "Modal" }}
-  //       />
-  //     </Stack>
-  //     <StatusBar style="auto" />
-  //   </ThemeProvider>
-  // );
 }
