@@ -1,15 +1,30 @@
-import { useState } from "react"
+import { Device } from "@/app/types"
+import { Dispatch, SetStateAction, useState } from "react"
 import { Button, View } from "react-native"
 import { ThemedText } from "./theme/themed-text"
 import { ThemedTextInput } from "./theme/themed-text-input"
 
 interface NewDeviceFormProps {
-  addRoku: (args?: { name: string; ip: string }) => void
+  devices: Device[]
+  setDevices: Dispatch<SetStateAction<Device[]>>
+  showAddNew: Dispatch<SetStateAction<boolean>>
 }
 
-export default function NewDeviceForm({ addRoku }: NewDeviceFormProps) {
+export default function NewDeviceForm({
+  devices,
+  setDevices,
+  showAddNew,
+}: NewDeviceFormProps) {
   const [name, setName] = useState("")
   const [ip, setIp] = useState("")
+
+  function addRoku() {
+    if (name && ip) {
+      setDevices([...devices, { ip, name }])
+    }
+
+    showAddNew(false)
+  }
 
   return (
     <>
@@ -32,7 +47,7 @@ export default function NewDeviceForm({ addRoku }: NewDeviceFormProps) {
         <Button
           title="Add Roku"
           onPress={() => {
-            addRoku({ name, ip })
+            addRoku()
           }}
         />
       </View>

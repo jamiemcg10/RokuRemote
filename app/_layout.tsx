@@ -1,11 +1,8 @@
 import "react-native-reanimated"
 
-import { pressKey } from "@/api/ecp"
 import NewDeviceForm from "@/components/new-device-form"
-import NoDevicesFound from "@/components/no-devices-found"
-import RemoteControl from "@/components/remote-control"
-import { ThemedText } from "@/components/theme/themed-text"
-import { IconButton } from "@/components/ui/icon-button"
+import RemoteView from "@/components/remote-view"
+import RokuList from "@/components/roku-list"
 import { Colors, DEFAULT_DEVICE } from "@/constants"
 import { useColorScheme } from "@/hooks/use-color-scheme"
 import {
@@ -14,22 +11,12 @@ import {
   ThemeProvider,
 } from "@react-navigation/native"
 import { useState } from "react"
-import { Button, FlatList, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Device } from "./types"
 
 export default function RootLayout() {
   const colorScheme = useColorScheme() || "dark"
   const theme = colorScheme === "light" ? DefaultTheme : DarkTheme
-
-  function addRoku(args?: { name: string; ip: string }) {
-    if (args) {
-      const { name, ip } = args
-      setDevices([...devices, { ip, name }])
-    }
-
-    showAddNew(false)
-  }
 
   const [devices, setDevices] = useState([DEFAULT_DEVICE])
   const [addNew, showAddNew] = useState(false)
@@ -46,70 +33,21 @@ export default function RootLayout() {
         }}
       >
         {selected && (
-          <>
-            <View
-              style={{
-                position: "relative",
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <ThemedText
-                style={{
-                  textAlign: "center",
-                  marginTop: 20,
-                  height: "100%",
-                  fontWeight: 600,
-                }}
-              >
-                Connected to {selected.name}
-              </ThemedText>
-              <View style={{ width: "auto" }}>
-                <IconButton
-                  name="search"
-                  size={30}
-                  onPress={() => pressKey(selected.ip, "FindRemote")}
-                />
-              </View>
-            </View>
-
-            <RemoteControl
-              baseIp={selected.ip}
-              name={selected.name}
-              setSelected={setSelected}
-            />
-          </>
+          <RemoteView selected={selected} setSelected={setSelected} />
         )}
-        {addNew && <NewDeviceForm addRoku={addRoku} />}
+        {addNew && (
+          <NewDeviceForm
+            devices={devices}
+            setDevices={setDevices}
+            showAddNew={showAddNew}
+          />
+        )}
         {!selected && !addNew && (
-          <>
-            <ThemedText
-              style={{
-                marginBottom: 10,
-                textAlign: "center",
-              }}
-            >
-              Rokus
-            </ThemedText>
-            <FlatList
-              data={devices}
-              keyExtractor={(item) => item.ip}
-              renderItem={({ item }) => (
-                <View style={{ marginVertical: 5 }}>
-                  <Button
-                    title={`${item.name} (${item.ip})`}
-                    onPress={() => setSelected(item)}
-                  />
-                </View>
-              )}
-            ></FlatList>
-
-            {(true || !devices.length) && (
-              <NoDevicesFound showAddNew={showAddNew} />
-            )}
-          </>
+          <RokuList
+            devices={devices}
+            setSelected={setSelected}
+            showAddNew={showAddNew}
+          />
         )}
       </SafeAreaView>
     </ThemeProvider>
