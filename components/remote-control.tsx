@@ -33,7 +33,7 @@ export default function RemoteControl({
           alignItems: "center",
         }}
       >
-        <PowerControl />
+        <PowerControl ip={baseIp} />
       </View>
       <View
         style={{
