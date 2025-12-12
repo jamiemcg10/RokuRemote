@@ -12,7 +12,7 @@ export function ThemedText({
   ...rest
 }: ThemedTextProps) {
   const color = useThemeColor("text")
-  console.log({ color })
+
   return (
     <Text
       style={[

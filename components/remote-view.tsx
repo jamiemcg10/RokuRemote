@@ -1,17 +1,13 @@
 import { pressKey } from "@/api/ecp"
-import { Device } from "@/types"
-import { Dispatch, SetStateAction } from "react"
+import { DevicesContext } from "@/contexts/devices-context"
+import { useContext } from "react"
 import { View } from "react-native"
 import RemoteControl from "./remote-control"
 import { ThemedText } from "./theme/themed-text"
 import { IconButton } from "./ui/icon-button"
 
-interface RemoteViewProps {
-  selected: Device
-  setSelected: Dispatch<SetStateAction<Device | undefined>>
-}
-
-export default function RemoteView({ selected, setSelected }: RemoteViewProps) {
+export default function RemoteView() {
+  const { selected, setSelected } = useContext(DevicesContext)
   return (
     <>
       <View

@@ -1,20 +1,14 @@
-import { Device } from "@/types"
-import { Dispatch, SetStateAction, useState } from "react"
+import { DevicesContext } from "@/contexts/devices-context"
+import { useRouter } from "expo-router"
+import { useContext, useState } from "react"
 import { Button, View } from "react-native"
 import { ThemedText } from "./theme/themed-text"
 import { ThemedTextInput } from "./theme/themed-text-input"
 
-interface NewDeviceFormProps {
-  devices: Device[]
-  setDevices: Dispatch<SetStateAction<Device[]>>
-  showAddNew: Dispatch<SetStateAction<boolean>>
-}
+export default function NewDeviceForm() {
+  const { devices, setDevices } = useContext(DevicesContext)
+  const router = useRouter()
 
-export default function NewDeviceForm({
-  devices,
-  setDevices,
-  showAddNew,
-}: NewDeviceFormProps) {
   const [name, setName] = useState("")
   const [ip, setIp] = useState("")
 
@@ -22,8 +16,6 @@ export default function NewDeviceForm({
     if (name && ip) {
       setDevices([...devices, { ip, name }])
     }
-
-    showAddNew(false)
   }
 
   return (
@@ -48,11 +40,18 @@ export default function NewDeviceForm({
           title="Add Roku"
           onPress={() => {
             addRoku()
+            router.back()
           }}
         />
       </View>
       <View style={{ marginTop: 15 }}>
-        <Button title="Cancel" onPress={() => addRoku()} />
+        <Button
+          title="Cancel"
+          onPress={() => {
+            addRoku()
+            router.back()
+          }}
+        />
       </View>
       <ThemedText style={{ marginTop: 40 }}>
         To find the IP Address, go to:

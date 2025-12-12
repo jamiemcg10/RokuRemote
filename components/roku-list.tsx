@@ -1,19 +1,14 @@
-import { Device } from "@/types"
-import { Dispatch, SetStateAction } from "react"
+import { DevicesContext } from "@/contexts/devices-context"
+import { useRouter } from "expo-router"
+import { useContext } from "react"
 import { Button, FlatList, View } from "react-native"
-import NoDevicesFound from "./no-devices-found"
+import AddDevice from "./add-device"
 import { ThemedText } from "./theme/themed-text"
 
-interface RokuListProps {
-  devices: Device[]
-  setSelected: Dispatch<SetStateAction<Device | undefined>>
-  showAddNew: Dispatch<SetStateAction<boolean>>
-}
-export default function RokuList({
-  devices,
-  setSelected,
-  showAddNew,
-}: RokuListProps) {
+export default function RokuList() {
+  const { devices, setSelected } = useContext(DevicesContext)
+  const router = useRouter()
+
   return (
     <>
       <ThemedText
@@ -31,12 +26,15 @@ export default function RokuList({
           <View style={{ marginVertical: 5 }}>
             <Button
               title={`${item.name} (${item.ip})`}
-              onPress={() => setSelected(item)}
+              onPress={() => {
+                setSelected(item)
+                router.push("/remote")
+              }}
             />
           </View>
         )}
       ></FlatList>
-      {(true || !devices.length) && <NoDevicesFound showAddNew={showAddNew} />}
+      <AddDevice />
     </>
   )
 }

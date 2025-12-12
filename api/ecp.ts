@@ -2,10 +2,9 @@ export async function pressKey(ip: string, key: string) {
   const url = `http://${ip}:8060/keypress/${key}`
 
   try {
-    const t = await fetch(url, {
+    await fetch(url, {
       method: "POST",
     })
-    console.log({ t })
   } catch (e) {
     console.log("Error sending key:", e)
   }
