@@ -2,8 +2,12 @@ import { launchApp, pressKey } from "@/api/ecp"
 import { Device } from "@/types"
 import { Dispatch, SetStateAction } from "react"
 import { Button, StyleSheet, View } from "react-native"
+import { IconButton } from "../ui/icon-button"
+import DownBtn from "./down-btn"
+import LeftBtn from "./left-btn"
 import PowerControl from "./power-control"
-import { IconButton } from "./ui/icon-button"
+import RightBtn from "./right-btn"
+import UpBtn from "./up-btn"
 
 interface RemoteControlProps {
   baseIp: string
@@ -49,36 +53,15 @@ export default function RemoteControl({
         <IconButton onPress={() => send("home")} size={40} name="home" />
       </View>
       <View style={styles.row}>
-        <IconButton
-          onPress={() => send("Up")}
-          name="chevron-right"
-          size={60}
-          style={{ transform: [{ rotate: "-90deg" }] }}
-        />
+        <UpBtn onPress={() => send("Up")} />
       </View>
       <View style={{ ...styles.row, columnGap: 20, marginVertical: 8 }}>
-        <IconButton
-          onPress={() => send("Left")}
-          name="chevron-right"
-          size={60}
-          style={{ transform: [{ rotate: "180deg" }] }}
-        />
-
+        <LeftBtn onPress={() => send("Left")} />
         <IconButton onPress={() => send("Select")} text="OK" size={70} />
-
-        <IconButton
-          onPress={() => send("Right")}
-          name="chevron-right"
-          size={60}
-        />
+        <RightBtn onPress={() => send("Right")} />
       </View>
       <View style={styles.row}>
-        <IconButton
-          onPress={() => send("Down")}
-          name="chevron-right"
-          size={60}
-          style={{ transform: [{ rotate: "90deg" }] }}
-        />
+        <DownBtn onPress={() => send("Down")} />
       </View>
 
       <View style={styles.grid}>

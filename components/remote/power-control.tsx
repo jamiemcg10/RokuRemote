@@ -4,7 +4,7 @@ import { useThemeColor } from "@/hooks/use-theme-color"
 import Slider from "@react-native-community/slider"
 import { useState } from "react"
 import { useColorScheme } from "react-native"
-import { IconSymbol } from "./ui/icon-symbol"
+import { IconSymbol } from "../ui/icon-symbol"
 
 interface PowerControlProps {
   ip: string

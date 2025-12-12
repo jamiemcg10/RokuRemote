@@ -2,7 +2,7 @@ import { pressKey } from "@/api/ecp"
 import { DevicesContext } from "@/contexts/devices-context"
 import { useContext } from "react"
 import { View } from "react-native"
-import RemoteControl from "./remote-control"
+import RemoteControl from "./remote/remote-control"
 import { ThemedText } from "./theme/themed-text"
 import { IconButton } from "./ui/icon-button"
 
