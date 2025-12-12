@@ -1,4 +1,4 @@
-import { Device } from "@/app/types"
+import { Device } from "@/types"
 import { Dispatch, SetStateAction } from "react"
 import { Button, FlatList, View } from "react-native"
 import NoDevicesFound from "./no-devices-found"

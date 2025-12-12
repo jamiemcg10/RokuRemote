@@ -1,5 +1,5 @@
 import { pressKey } from "@/api/ecp"
-import { Device } from "@/app/types"
+import { Device } from "@/types"
 import { Dispatch, SetStateAction } from "react"
 import { View } from "react-native"
 import RemoteControl from "./remote-control"

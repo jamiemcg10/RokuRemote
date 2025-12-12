@@ -12,7 +12,7 @@ import {
 } from "@react-navigation/native"
 import { useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { Device } from "./types"
+import { Device } from "../types"
 
 export default function RootLayout() {
   const colorScheme = useColorScheme() || "dark"

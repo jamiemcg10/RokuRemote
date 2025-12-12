@@ -1,4 +1,4 @@
-import { Device } from "@/app/types"
+import { Device } from "@/types"
 import { Dispatch, SetStateAction, useState } from "react"
 import { Button, View } from "react-native"
 import { ThemedText } from "./theme/themed-text"
